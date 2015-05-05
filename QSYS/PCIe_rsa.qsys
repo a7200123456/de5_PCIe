@@ -371,7 +371,7 @@
   <parameter name="RXM_DATA_WIDTH" value="64" />
   <parameter name="SLAVE_ADDRESS_MAP_0" value="15" />
   <parameter name="SLAVE_ADDRESS_MAP_1" value="0" />
-  <parameter name="SLAVE_ADDRESS_MAP_2" value="1" />
+  <parameter name="SLAVE_ADDRESS_MAP_2" value="5" />
   <parameter name="SLAVE_ADDRESS_MAP_3" value="0" />
   <parameter name="SLAVE_ADDRESS_MAP_4" value="0" />
   <parameter name="SLAVE_ADDRESS_MAP_5" value="0" />

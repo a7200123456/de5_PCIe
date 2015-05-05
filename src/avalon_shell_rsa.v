@@ -60,8 +60,8 @@ module avalon_shell_rsa (
     input  avs_s0_address;
     input  avs_s0_read;
     input  avs_s0_write;
-	 output [7:0] avs_s0_readdata;
-	 input  [7:0] avs_s0_writedata;
+	 output [127:0] avs_s0_readdata;
+	 input  [127:0] avs_s0_writedata;
 	
 	//avalon_MM_s0 to design
 	input   avm_design_s0_waitrequest;
@@ -83,6 +83,6 @@ module avalon_shell_rsa (
    assign avm_design_s0_read     = avs_s0_read;
    assign avm_design_s0_write    = avs_s0_write;
    assign avs_s0_readdata			= avm_design_s0_readdata;
-	assign avm_design_s0_writedata= avs_s0_writedata;
+	assign avm_design_s0_writedata= avs_s0_writedata[7:0];
 
 endmodule

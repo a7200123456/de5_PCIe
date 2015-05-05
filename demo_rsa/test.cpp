@@ -11,8 +11,8 @@ using namespace std;
 int test2(int fd) {
 	const int chunk_size = 64;
 	const int pcie_size  = 4096;
-	int set_flag = 1;
-	int read_flag= 1;
+	char set_flag = 1;
+	char read_flag= 1;
 	
 	unique_ptr<char[]> data_i (new char[pcie_size]);
 	unique_ptr<char[]> data_o (new char[pcie_size]);
@@ -41,9 +41,9 @@ int test2(int fd) {
 	assert(alt_up_pci_dma_add(fd, dmaId, addr, (char*)data_i.get(), pcie_size, TO_DEVICE) == 0);
 	assert(alt_up_pci_dma_go(fd, dmaId, irqHandling) == 0);
 	
-	assert(alt_up_pci_write(fd, 2, 0, set_flag, sizeof(set_flag)) == 0);
+	assert(alt_up_pci_write(fd, 2, 0, &set_flag, sizeof(set_flag)) == 0);
 	while (read_flag == 1){
-		assert(alt_up_pci_read(fd, 2, 0, read_flag, sizeof(read_flag)) == 0);
+		assert(alt_up_pci_read(fd, 2, 0, &read_flag, sizeof(read_flag)) == 0);
 	}
 	
 	// read
