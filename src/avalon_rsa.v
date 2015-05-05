@@ -1,15 +1,22 @@
 module avalon_rsa (
     clk,
     reset,
-    rsa_start,
     
-	//avalon_MM
+	//avalon_MM_m0
 	avm_m0_waitrequest,
-    avm_m0_address,
-    avm_m0_read,
-    avm_m0_write,
+   avm_m0_address,
+   avm_m0_read,
+   avm_m0_write,
 	avm_m0_readdata,
-	avm_m0_writedata
+	avm_m0_writedata,
+	
+	//avalon_MM_s0 => flag register
+	avs_s0_waitrequest,
+   avs_s0_address,
+   avs_s0_read,
+   avs_s0_write,
+	avs_s0_readdata,
+	avs_s0_writedata
 );
 
 //==== parameter definition ===============================
@@ -23,15 +30,21 @@ module avalon_rsa (
     //-------- input ---------------------------
     input clk;
     input reset;
-    input rsa_start;
     
     //-------- avalon_MM_master --------------------------------------
     input  avm_m0_waitrequest;
     output [31:0] avm_m0_address; //
     output avm_m0_read; //
     output avm_m0_write; //
-	input  [7:0] avm_m0_readdata;
-	output [7:0] avm_m0_writedata;//
+	 input  [7:0] avm_m0_readdata;
+	 output [7:0] avm_m0_writedata;//
+	 
+	 output avs_s0_waitrequest;
+	 input  avs_s0_address;
+	 input  avs_s0_read;
+	 input  avs_s0_write;
+	 output [7:0] avs_s0_readdata;
+	 input  [7:0] avs_s0_writedata;
     
 //==== reg/wire declaration ================================
     //-----------rsa_core-------------------
@@ -41,28 +54,28 @@ module avalon_rsa (
     reg   [1:0] core_reg_sel;
     wire  [4:0] core_addr;
     wire  [7:0] core_data_i;
-		//-------- output --------------------------------------
+	 //-------- output --------------------------------------
     wire core_ready;
     wire [7:0] core_data_o;
-	reg  [7:0] temp_data_in;
-	wire  [7:0] next_temp_data_in;
+	 reg  [7:0] temp_data_in;
+	 wire  [7:0] next_temp_data_in;
 	
-	wire  next_core_start;
+	 wire  next_core_start;
+	 
+	 reg  [1:0] state;
+	 reg  [31:0]dram_addr;
+	 reg  addr_go_back;
+	 reg  dram_read;
+	 reg  dram_write;
 	
-	reg  [1:0] state;
-	reg  [31:0]dram_addr;
-	reg  addr_go_back;
-	reg  dram_read;
-	reg  dram_write;
+	 reg  [1:0] next_state;
+	 reg  [31:0]next_dram_addr;
+	 wire next_addr_go_back;
+	 reg  next_dram_write;
 	
-	reg [1:0] next_state;
-	reg  [31:0]next_dram_addr;
-	wire next_addr_go_back;
-	//reg  next_dram_read;
-	reg  next_dram_write;
-	
-	wire  clk_25;
-
+	 wire  clk_25;
+	 reg	 flag_reg;
+	 reg   next_flag_reg;
 //==== combinational part ==================================
    //next_slow_counter = clk_25 + 1'b1;
    clksrc clk_rsa(
@@ -70,11 +83,24 @@ module avalon_rsa (
 		.rst(reset),      //   reset.reset
 		.outclk_0(clk_25)  // outclk0.clk
 	);
-   //finite state machine
-    always@(*) begin
+   
+	// flag_reg 
+	always@(*) begin
+		if(avs_s0_write == 1'b1)
+			next_flag_reg = avs_s0_writedata[0];
+		else if (state == oe_state && dram_addr == 32'd320)
+			next_flag_reg = 1'b0;
+		else 
+			next_flag_reg = flag_reg;
+	end
+	assign avs_s0_readdata = {8{flag_reg}};
+	assign avs_s0_waitrequest = 1'b0;
+	
+	//finite state machine
+   always@(*) begin
         case(state)
             idle_state:begin
-				if (rsa_start == 1)
+				if (flag_reg == 1)
 					next_state = we_state;
 				else next_state = idle_state;
             end    

@@ -205,7 +205,7 @@
  <parameter name="hdlLanguage" value="VERILOG" />
  <parameter name="hideFromIPCatalog" value="false" />
  <parameter name="maxAdditionalLatency" value="1" />
- <parameter name="projectName" value="DE5_avalon_rsa.qpf" />
+ <parameter name="projectName" value="" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="0" />
  <parameter name="testBenchDutName" value="" />
@@ -213,33 +213,63 @@
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface
-   name="avalon_shell_rsa_0_desgin_waitrequest"
-   internal="avalon_shell_rsa_0.desgin_waitrequest"
+   name="avalon_shell_rsa_0_m0_address"
+   internal="avalon_shell_rsa_0.m0_address"
    type="conduit"
    dir="end" />
  <interface
-   name="avalon_shell_rsa_0_design_address"
-   internal="avalon_shell_rsa_0.design_address"
+   name="avalon_shell_rsa_0_m0_read"
+   internal="avalon_shell_rsa_0.m0_read"
    type="conduit"
    dir="end" />
  <interface
-   name="avalon_shell_rsa_0_design_read"
-   internal="avalon_shell_rsa_0.design_read"
+   name="avalon_shell_rsa_0_m0_readdata"
+   internal="avalon_shell_rsa_0.m0_readdata"
    type="conduit"
    dir="end" />
  <interface
-   name="avalon_shell_rsa_0_design_readdata"
-   internal="avalon_shell_rsa_0.design_readdata"
+   name="avalon_shell_rsa_0_m0_waitrequest"
+   internal="avalon_shell_rsa_0.m0_waitrequest"
    type="conduit"
    dir="end" />
  <interface
-   name="avalon_shell_rsa_0_design_write"
-   internal="avalon_shell_rsa_0.design_write"
+   name="avalon_shell_rsa_0_m0_write"
+   internal="avalon_shell_rsa_0.m0_write"
    type="conduit"
    dir="end" />
  <interface
-   name="avalon_shell_rsa_0_design_writedata"
-   internal="avalon_shell_rsa_0.design_writedata"
+   name="avalon_shell_rsa_0_m0_writedata"
+   internal="avalon_shell_rsa_0.m0_writedata"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="avalon_shell_rsa_0_s0_address"
+   internal="avalon_shell_rsa_0.s0_address"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="avalon_shell_rsa_0_s0_read"
+   internal="avalon_shell_rsa_0.s0_read"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="avalon_shell_rsa_0_s0_readdata"
+   internal="avalon_shell_rsa_0.s0_readdata"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="avalon_shell_rsa_0_s0_waitrequest"
+   internal="avalon_shell_rsa_0.s0_waitrequest"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="avalon_shell_rsa_0_s0_write"
+   internal="avalon_shell_rsa_0.s0_write"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="avalon_shell_rsa_0_s0_writedata"
+   internal="avalon_shell_rsa_0.s0_writedata"
    type="conduit"
    dir="end" />
  <interface name="clk_0" internal="clk.clk_in" type="clock" dir="end" />
@@ -310,7 +340,7 @@
   <parameter name="CB_A2P_ADDR_MAP_FIXED_TABLE_9_LOW" value="0" />
   <parameter name="CB_A2P_ADDR_MAP_IS_FIXED" value="0" />
   <parameter name="CB_A2P_ADDR_MAP_NUM_ENTRIES" value="2" />
-  <parameter name="CB_A2P_ADDR_MAP_PASS_THRU_BITS" value="12" />
+  <parameter name="CB_A2P_ADDR_MAP_PASS_THRU_BITS" value="30" />
   <parameter name="CB_P2A_AVALON_ADDR_B0" value="0x00000000" />
   <parameter name="CB_P2A_AVALON_ADDR_B1" value="0x00000000" />
   <parameter name="CB_P2A_AVALON_ADDR_B2" value="0x00000000" />
@@ -341,7 +371,7 @@
   <parameter name="RXM_DATA_WIDTH" value="64" />
   <parameter name="SLAVE_ADDRESS_MAP_0" value="15" />
   <parameter name="SLAVE_ADDRESS_MAP_1" value="0" />
-  <parameter name="SLAVE_ADDRESS_MAP_2" value="0" />
+  <parameter name="SLAVE_ADDRESS_MAP_2" value="1" />
   <parameter name="SLAVE_ADDRESS_MAP_3" value="0" />
   <parameter name="SLAVE_ADDRESS_MAP_4" value="0" />
   <parameter name="SLAVE_ADDRESS_MAP_5" value="0" />
@@ -417,7 +447,7 @@
   <parameter name="avmm_width_hwtcl" value="128" />
   <parameter name="bar0_type_hwtcl" value="2" />
   <parameter name="bar1_type_hwtcl" value="0" />
-  <parameter name="bar2_type_hwtcl" value="0" />
+  <parameter name="bar2_type_hwtcl" value="2" />
   <parameter name="bar3_type_hwtcl" value="0" />
   <parameter name="bar4_type_hwtcl" value="0" />
   <parameter name="bar5_type_hwtcl" value="0" />
@@ -537,7 +567,7 @@
  <module
    name="avalon_shell_rsa_0"
    kind="avalon_shell_rsa"
-   version="1.0"
+   version="2.0"
    enabled="1" />
  <module name="clk" kind="clock_source" version="14.1" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
@@ -879,11 +909,11 @@
   <parameter name="fifoDepth" value="64" />
   <parameter name="maxBurstSize" value="512" />
   <parameter name="minimumDmaTransactionRegisterWidth" value="13" />
-  <parameter name="readAddressMap"><![CDATA[<address-map><slave name='ddr3a.avl' start='0x0' end='0x80000000' /><slave name='PCIE_interface.Txs' start='0x80000000' end='0x80002000' /></address-map>]]></parameter>
+  <parameter name="readAddressMap"><![CDATA[<address-map><slave name='ddr3a.avl' start='0x0' end='0x80000000' /><slave name='PCIE_interface.Txs' start='0x80000000' end='0x100000000' /></address-map>]]></parameter>
   <parameter name="readSlaveAddressWidthMax" value="32" />
   <parameter name="readSlaveDataWidthMax" value="128" />
   <parameter name="useRegistersForFIFO" value="false" />
-  <parameter name="writeAddressMap"><![CDATA[<address-map><slave name='ddr3a.avl' start='0x0' end='0x80000000' /><slave name='PCIE_interface.Txs' start='0x80000000' end='0x80002000' /></address-map>]]></parameter>
+  <parameter name="writeAddressMap"><![CDATA[<address-map><slave name='ddr3a.avl' start='0x0' end='0x80000000' /><slave name='PCIE_interface.Txs' start='0x80000000' end='0x100000000' /></address-map>]]></parameter>
   <parameter name="writeSlaveAddressWidthMax" value="32" />
   <parameter name="writeSlaveDataWidthMax" value="128" />
  </module>
@@ -922,6 +952,15 @@
    end="dma0.control_port_slave">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x4000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="14.1"
+   start="PCIE_interface.Rxm_BAR2"
+   end="avalon_shell_rsa_0.s0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
