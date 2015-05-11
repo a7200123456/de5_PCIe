@@ -222,7 +222,7 @@ module avalon_rsa (
 	assign avm_m0_writedata = core_data_o;
 	
     rsa_core rsa1(
-    .clk(clk), //
+    .clk(clk_25), //
     .reset(reset), //
     .ready(core_ready), //
     .we(core_we),//
