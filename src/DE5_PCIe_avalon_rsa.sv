@@ -258,9 +258,10 @@ module DE5_PCIe_avalon_rsa(
 wire        rsa_desgin_waitrequest;
 wire [31:0] rsa_design_address;        
 wire        rsa_design_read;              
-wire [7:0]  rsa_design_readdata;      
+wire [255:0]  rsa_design_readdata;      
 wire        rsa_design_write;            
-wire [7:0]  rsa_design_writedata;    
+wire [255:0]  rsa_design_writedata;   
+wire rsa_design_readdatavalid; 
 
 //avalon_MM_s0 => flag register
 wire rsa_reg_waitrequest;
@@ -277,18 +278,19 @@ PCIe_rsa the_system(
 	.clk_0_clk(OSC_50_B8A),
 	
 	//RSA
-	.avalon_shell_rsa_0_m0_address_address(rsa_design_address),         //     avalon_shell_rsa_0_m0_address.address
-	.avalon_shell_rsa_0_m0_read_read(rsa_design_read),               //        avalon_shell_rsa_0_m0_read.read
-	.avalon_shell_rsa_0_m0_readdata_readdata(rsa_design_readdata),       //    avalon_shell_rsa_0_m0_readdata.readdata
-	.avalon_shell_rsa_0_m0_waitrequest_waitrequest(rsa_desgin_waitrequest), // avalon_shell_rsa_0_m0_waitrequest.waitrequest
-	.avalon_shell_rsa_0_m0_write_write(rsa_design_write),             //       avalon_shell_rsa_0_m0_write.write
-	.avalon_shell_rsa_0_m0_writedata_writedata(rsa_design_writedata),     //   avalon_shell_rsa_0_m0_writedata.writedata
-	.avalon_shell_rsa_0_s0_address_address(rsa_reg_address),         //     avalon_shell_rsa_0_s0_address.address
-	.avalon_shell_rsa_0_s0_read_read(rsa_reg_read),               //        avalon_shell_rsa_0_s0_read.read
-	.avalon_shell_rsa_0_s0_readdata_readdata(rsa_design_readdata),     //    avalon_shell_rsa_0_s0_readdata.readdata
-	.avalon_shell_rsa_0_s0_waitrequest_waitrequest(rsa_reg_waitrequest), // avalon_shell_rsa_0_s0_waitrequest.waitrequest
-	.avalon_shell_rsa_0_s0_write_write(rsa_reg_write),             //       avalon_shell_rsa_0_s0_write.write
-	.avalon_shell_rsa_0_s0_writedata_writedata(rsa_reg_writedata),    //   avalon_shell_rsa_0_s0_writedata.writedata
+	.avalon_shell_rsa_m0_design_address(rsa_design_address),         //     avalon_shell_rsa_0_m0_address.address
+	.avalon_shell_rsa_m0_design_read(rsa_design_read),               //        avalon_shell_rsa_0_m0_read.read
+	.avalon_shell_rsa_m0_design_readdata(rsa_design_readdata),       //    avalon_shell_rsa_0_m0_readdata.readdata
+	.avalon_shell_rsa_m0_design_waitrequest(rsa_desgin_waitrequest), // avalon_shell_rsa_0_m0_waitrequest.waitrequest
+	.avalon_shell_rsa_m0_design_write(rsa_design_write),             //       avalon_shell_rsa_0_m0_write.write
+	.avalon_shell_rsa_m0_design_writedata(rsa_design_writedata),     //   avalon_shell_rsa_0_m0_writedata.writedata
+	.avalon_shell_rsa_m0_design_readdatavalid(rsa_design_readdatavalid),
+	.avalon_shell_rsa_s0_design_address(rsa_reg_address),         //     avalon_shell_rsa_0_s0_address.address
+	.avalon_shell_rsa_s0_design_read(rsa_reg_read),               //        avalon_shell_rsa_0_s0_read.read
+	.avalon_shell_rsa_s0_design_readdata(rsa_design_readdata),     //    avalon_shell_rsa_0_s0_readdata.readdata
+	.avalon_shell_rsa_s0_design_waitrequest(rsa_reg_waitrequest), // avalon_shell_rsa_0_s0_waitrequest.waitrequest
+	.avalon_shell_rsa_s0_design_write(rsa_reg_write),             //       avalon_shell_rsa_0_s0_write.write
+	.avalon_shell_rsa_s0_design_writedata(rsa_reg_writedata),    //   avalon_shell_rsa_0_s0_writedata.writedata
 	
 	// DDR3a, many signals only connect to [0], but I don't know why
 	// ddr3a_status_local_init_done,
@@ -338,9 +340,10 @@ avalon_rsa avalon_rsa_1(
     
 	//avalon_MM
 	.avm_m0_waitrequest(rsa_desgin_waitrequest),
-   .avm_m0_address	 (rsa_design_address),
-   .avm_m0_read		 (rsa_design_read),
-   .avm_m0_write		 (rsa_design_write),
+    .avm_m0_address	 (rsa_design_address),
+    .avm_m0_read		 (rsa_design_read),
+    .avm_m0_write		 (rsa_design_write),
+	.avm_m0_readdatavalid(rsa_design_readdatavalid),
 	.avm_m0_readdata	 (rsa_design_readdata),
 	.avm_m0_writedata  (rsa_design_writedata),
 	

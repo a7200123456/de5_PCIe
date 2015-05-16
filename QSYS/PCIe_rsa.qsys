@@ -98,7 +98,7 @@
          type = "boolean";
       }
    }
-   element avalon_shell_rsa_0
+   element avalon_shell_rsa
    {
       datum _sortIndex
       {
@@ -214,62 +214,44 @@
  <instanceScript></instanceScript>
  <interface
    name="avalon_shell_rsa_0_m0_address"
-   internal="avalon_shell_rsa_0.m0_address"
-   type="conduit"
-   dir="end" />
- <interface
-   name="avalon_shell_rsa_0_m0_read"
-   internal="avalon_shell_rsa_0.m0_read"
-   type="conduit"
-   dir="end" />
+   internal="avalon_shell_rsa.m0_address" />
+ <interface name="avalon_shell_rsa_0_m0_read" internal="avalon_shell_rsa.m0_read" />
  <interface
    name="avalon_shell_rsa_0_m0_readdata"
-   internal="avalon_shell_rsa_0.m0_readdata"
-   type="conduit"
-   dir="end" />
+   internal="avalon_shell_rsa.m0_readdata" />
  <interface
    name="avalon_shell_rsa_0_m0_waitrequest"
-   internal="avalon_shell_rsa_0.m0_waitrequest"
-   type="conduit"
-   dir="end" />
+   internal="avalon_shell_rsa.m0_waitrequest" />
  <interface
    name="avalon_shell_rsa_0_m0_write"
-   internal="avalon_shell_rsa_0.m0_write"
-   type="conduit"
-   dir="end" />
+   internal="avalon_shell_rsa.m0_write" />
  <interface
    name="avalon_shell_rsa_0_m0_writedata"
-   internal="avalon_shell_rsa_0.m0_writedata"
-   type="conduit"
-   dir="end" />
+   internal="avalon_shell_rsa.m0_writedata" />
  <interface
    name="avalon_shell_rsa_0_s0_address"
-   internal="avalon_shell_rsa_0.s0_address"
-   type="conduit"
-   dir="end" />
- <interface
-   name="avalon_shell_rsa_0_s0_read"
-   internal="avalon_shell_rsa_0.s0_read"
-   type="conduit"
-   dir="end" />
+   internal="avalon_shell_rsa.s0_address" />
+ <interface name="avalon_shell_rsa_0_s0_read" internal="avalon_shell_rsa.s0_read" />
  <interface
    name="avalon_shell_rsa_0_s0_readdata"
-   internal="avalon_shell_rsa_0.s0_readdata"
-   type="conduit"
-   dir="end" />
+   internal="avalon_shell_rsa.s0_readdata" />
  <interface
    name="avalon_shell_rsa_0_s0_waitrequest"
-   internal="avalon_shell_rsa_0.s0_waitrequest"
-   type="conduit"
-   dir="end" />
+   internal="avalon_shell_rsa.s0_waitrequest" />
  <interface
    name="avalon_shell_rsa_0_s0_write"
-   internal="avalon_shell_rsa_0.s0_write"
+   internal="avalon_shell_rsa.s0_write" />
+ <interface
+   name="avalon_shell_rsa_0_s0_writedata"
+   internal="avalon_shell_rsa.s0_writedata" />
+ <interface
+   name="avalon_shell_rsa_m0_design"
+   internal="avalon_shell_rsa.m0_design"
    type="conduit"
    dir="end" />
  <interface
-   name="avalon_shell_rsa_0_s0_writedata"
-   internal="avalon_shell_rsa_0.s0_writedata"
+   name="avalon_shell_rsa_s0_design"
+   internal="avalon_shell_rsa.s0_design"
    type="conduit"
    dir="end" />
  <interface name="clk_0" internal="clk.clk_in" type="clock" dir="end" />
@@ -565,9 +547,9 @@
   <parameter name="number_of_reconfig_interfaces" value="10" />
  </module>
  <module
-   name="avalon_shell_rsa_0"
+   name="avalon_shell_rsa"
    kind="avalon_shell_rsa"
-   version="2.0"
+   version="3.0"
    enabled="1" />
  <module name="clk" kind="clock_source" version="14.1" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
@@ -958,7 +940,7 @@
    kind="avalon"
    version="14.1"
    start="PCIE_interface.Rxm_BAR2"
-   end="avalon_shell_rsa_0.s0">
+   end="avalon_shell_rsa.s0">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
@@ -980,7 +962,7 @@
  <connection
    kind="avalon"
    version="14.1"
-   start="avalon_shell_rsa_0.m0"
+   start="avalon_shell_rsa.m0"
    end="ddr3a.avl">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
@@ -1017,7 +999,7 @@
    kind="clock"
    version="14.1"
    start="clk.clk"
-   end="avalon_shell_rsa_0.clock" />
+   end="avalon_shell_rsa.clock" />
  <connection
    kind="clock"
    version="14.1"
@@ -1125,7 +1107,7 @@
    kind="reset"
    version="14.1"
    start="clk.clk_reset"
-   end="avalon_shell_rsa_0.reset" />
+   end="avalon_shell_rsa.reset" />
  <connection
    kind="reset"
    version="14.1"
