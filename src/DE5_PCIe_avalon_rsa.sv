@@ -287,7 +287,7 @@ PCIe_rsa the_system(
 	.avalon_shell_rsa_m0_design_readdatavalid(rsa_design_readdatavalid),
 	.avalon_shell_rsa_s0_design_address(rsa_reg_address),         //     avalon_shell_rsa_0_s0_address.address
 	.avalon_shell_rsa_s0_design_read(rsa_reg_read),               //        avalon_shell_rsa_0_s0_read.read
-	.avalon_shell_rsa_s0_design_readdata(rsa_design_readdata),     //    avalon_shell_rsa_0_s0_readdata.readdata
+	.avalon_shell_rsa_s0_design_readdata(rsa_reg_readdata),     //    avalon_shell_rsa_0_s0_readdata.readdata
 	.avalon_shell_rsa_s0_design_waitrequest(rsa_reg_waitrequest), // avalon_shell_rsa_0_s0_waitrequest.waitrequest
 	.avalon_shell_rsa_s0_design_write(rsa_reg_write),             //       avalon_shell_rsa_0_s0_write.write
 	.avalon_shell_rsa_s0_design_writedata(rsa_reg_writedata),    //   avalon_shell_rsa_0_s0_writedata.writedata

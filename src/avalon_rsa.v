@@ -412,42 +412,42 @@ module avalon_rsa (
 //==== sequential part =====================================  
     always@(posedge clk or posedge reset)
         if (reset == 1) begin
-			state = idle_state;
-			dram_addr = 32'b0;
-			dram_write = 1'b0;
-			dram_read = 1'b0;
-			core_start = 1'b0;
-			flag_reg = 1'b0;
-			out31_flag = 1'b0;
-			core_we = 1'b0;
-			core_oe = 1'b0;
-			core_start = 1'b0;
-			core_reg_sel = 2'b00;
-			core_addr = 5'd31;
-			temp_data_in = 255'b0;
-			temp_data_out= 255'b0;
-			core_start_f = 1'b0;
-			core_addr_f = 1'b0;
-			out31_flag_f = 1'b0;
+			state <= idle_state;
+			dram_addr <= 32'b0;
+			dram_write <= 1'b0;
+			dram_read <= 1'b0;
+			core_start <= 1'b0;
+			flag_reg <= 1'b0;
+			out31_flag <= 1'b0;
+			core_we <= 1'b0;
+			core_oe <= 1'b0;
+			core_start <= 1'b0;
+			core_reg_sel <= 2'b00;
+			core_addr <= 5'd31;
+			temp_data_in <= 255'b0;
+			temp_data_out<= 255'b0;
+			core_start_f <= 1'b0;
+			core_addr_f <= 1'b0;
+			out31_flag_f <= 1'b0;
         end
         else begin
-			state = next_state;
-			dram_addr =	next_dram_addr;
-			dram_write = next_dram_write;
-			dram_read = next_dram_read;
-			core_start = next_core_start;
-			flag_reg = next_flag_reg;
-			out31_flag = next_out31_flag;
-			core_we = next_core_we;
-			core_oe = next_core_oe;
-			core_start = next_core_start;
-			core_reg_sel = next_core_reg_sel;
-			core_addr = next_core_addr;
-			temp_data_in = next_temp_data_in ;
-			temp_data_out= next_temp_data_out;
-			core_start_f = next_core_start_f;
-			core_addr_f  = next_core_addr_f ;
-			out31_flag_f = next_out31_flag_f;
+			state <= next_state;
+			dram_addr <=	next_dram_addr;
+			dram_write <= next_dram_write;
+			dram_read <= next_dram_read;
+			core_start <= next_core_start;
+			flag_reg <= next_flag_reg;
+			out31_flag <= next_out31_flag;
+			core_we <= next_core_we;
+			core_oe <= next_core_oe;
+			core_start <= next_core_start;
+			core_reg_sel <= next_core_reg_sel;
+			core_addr <= next_core_addr;
+			temp_data_in <= next_temp_data_in ;
+			temp_data_out<= next_temp_data_out;
+			core_start_f <= next_core_start_f;
+			core_addr_f  <= next_core_addr_f ;
+			out31_flag_f <= next_out31_flag_f;
 		end
     
 endmodule
