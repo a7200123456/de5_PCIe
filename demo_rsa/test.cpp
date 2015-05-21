@@ -65,7 +65,7 @@ int test2(int fd) {
 	assert(alt_up_pci_dma_go(fd, dmaId, irqHandling) == 0);
 	
 	assert(alt_up_pci_write(fd, 2, 0, &set_flag, sizeof(set_flag)) == 0);
-	while (read_flag == 1){
+	while (read_flag != 0){
 		assert(alt_up_pci_read(fd, 2, 0, &read_flag, sizeof(read_flag)) == 0);
 	}
 	

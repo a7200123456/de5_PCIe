@@ -79,7 +79,9 @@ module avalon_rsa (
 	reg  [31:0]dram_addr;
 	reg  addr_go_back;
 	reg  dram_read;
+	reg  dram_read_flag;
 	reg  next_dram_read;
+	reg  next_dram_read_flag;
 	reg  dram_write;
 	
 	reg  [1:0] next_state;
@@ -213,15 +215,30 @@ module avalon_rsa (
 	always@(*) begin
 		if (state == idle_state && flag_reg == 1)
 			next_dram_read = 1'b1;
-		else if (state == we_state && avm_m0_waitrequest == 1'd1)// && slow_counter == 1'b0)
-			next_dram_read = 1'b1;
-		else if (avm_m0_readdatavalid == 1'd1)
-			next_dram_read = 1'b0;
-		else if (state == we_state && core_addr == 5'd31)
-			next_dram_read = 1'b1;
+		else if (state == we_state)begin
+			if (dram_read_flag == 1)
+				next_dram_read = 1'b0;
+			else if (avm_m0_waitrequest == 1'd1 && dram_read_flag == 0)// && slow_counter == 1'b0)
+				next_dram_read = 1'b1;
+			else if (core_addr == 5'd31&& avm_m0_readdatavalid == 1'd1)
+				next_dram_read = 1'b0;
+			else if (core_addr == 5'd31&& avm_m0_readdatavalid == 1'd0)
+				next_dram_read = 1'b1;
+			else
+				next_dram_read = 1'b0;
+		end
 		else
 			next_dram_read = 1'b0;
     end
+	always@(*) begin
+		if (state == we_state && dram_read == 1'b1 && avm_m0_waitrequest == 1'd0 && dram_read_flag == 1'd0)
+			next_dram_read_flag = 1'b1;
+		else if (state == we_state && avm_m0_readdatavalid == 1'd1)
+			next_dram_read_flag = 1'b0;
+		else
+			next_dram_read_flag = dram_read_flag;
+    end
+	
 	assign avm_m0_read = dram_read;
 	
 	assign avm_m0_write = dram_write;
@@ -416,6 +433,7 @@ module avalon_rsa (
 			dram_addr <= 32'b0;
 			dram_write <= 1'b0;
 			dram_read <= 1'b0;
+			dram_read_flag <= 1'b0;
 			core_start <= 1'b0;
 			flag_reg <= 1'b0;
 			out31_flag <= 1'b0;
@@ -435,6 +453,7 @@ module avalon_rsa (
 			dram_addr <=	next_dram_addr;
 			dram_write <= next_dram_write;
 			dram_read <= next_dram_read;
+			dram_read_flag <= next_dram_read_flag;
 			core_start <= next_core_start;
 			flag_reg <= next_flag_reg;
 			out31_flag <= next_out31_flag;
