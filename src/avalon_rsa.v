@@ -400,7 +400,7 @@ module avalon_rsa (
 	
     rsa_core rsa1(
     .clk(clk_25), //
-    .reset(reset), //
+    .reset(~reset), //
     .ready(core_ready), //
     .we(core_we),//
     .oe(core_oe),//
@@ -410,8 +410,8 @@ module avalon_rsa (
     .data_i(core_data_i),
     .data_o(core_data_o));
 //==== sequential part =====================================  
-    always@(posedge clk or posedge reset)
-        if (reset == 1) begin
+    always@(posedge clk or negedge reset)
+        if (reset == 0) begin
 			state <= idle_state;
 			dram_addr <= 32'b0;
 			dram_write <= 1'b0;
