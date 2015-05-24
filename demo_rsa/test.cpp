@@ -35,7 +35,7 @@ int test2(int fd) {
 	unique_ptr<char[]> data_o (new char[pcie_size]);
 	unique_ptr<char[]> data_m (new char[pcie_size]);
 	
-	FILE *fin_dn = fopen("dn.txt", "rb");
+	FILE *fin_dn = fopen("dn_reverse.txt", "rb");
 	FILE *fin_c  = fopen("c.txt", "rb");
 	FILE *fin_m  = fopen("m.txt", "rb");
 	fread(data_i.get(), 1, chunk_size, fin_dn);
@@ -53,17 +53,18 @@ int test2(int fd) {
 	//for (int j = 0; j < 1024; ++j) {
 	//	printf("%c %c\n", data_i[j], data_m[j] );
 	//}
-	for (int i = 0; i < pcie_size/2; i++){
+	for (int i = 0; i < (pcie_size/2-1); i++){
         data_i[i] = convertHexPair(data_i[2*i],data_i[2*i+1]);
+		printf("data_i[%d]: %hhx \n",i,data_i[i] );
     }
-	
+	printf("convert done");
 	const int irqHandling = POLLING;
 	const int dmaId = 0;
 	
 	int addr = 0;
 	assert(alt_up_pci_dma_add(fd, dmaId, addr, (char*)data_i.get(), pcie_size/2, TO_DEVICE) == 0);
 	assert(alt_up_pci_dma_go(fd, dmaId, irqHandling) == 0);
-	
+	printf("write dram done");
 	assert(alt_up_pci_write(fd, 2, 0, &set_flag, sizeof(set_flag)) == 0);
 	while (read_flag != 0){
 		assert(alt_up_pci_read(fd, 2, 0, &read_flag, sizeof(read_flag)) == 0);
