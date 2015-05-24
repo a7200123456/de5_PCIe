@@ -79,7 +79,7 @@ int test2(int fd) {
 		if (data_o[j] !=  data_m[j]) {
 			++ndiff;
 		}
-		printf("[w] %08x %hhx %hhx %c%c \n", addr+j, data_o[j],data_i[j], data_m[2*j], data_m[2*j+1] );
+		printf("[w] %08x %c %hhx %c%c \n", addr+j, data_o[j],data_i[j], data_m[2*j], data_m[2*j+1] );
 	}//printf("read speed %.2lfMB/s\n", ((nData*nBatch)>>18)/toc());
 
 	return ndiff;
