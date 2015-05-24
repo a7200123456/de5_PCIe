@@ -101,7 +101,7 @@ module avalon_rsa (
    //next_slow_counter = clk_25 + 1'b1;
     clksrc clk_rsa(
 		.refclk(clk),   //  refclk.clk
-		.rst(reset),      //   reset.reset
+		.rst(~reset),      //   reset.reset
 		.outclk_0(clk_25)  // outclk0.clk
 	);
    
@@ -233,7 +233,7 @@ module avalon_rsa (
 	always@(*) begin
 		if (state == we_state && dram_read == 1'b1 && avm_m0_waitrequest == 1'd0 && dram_read_flag == 1'd0)
 			next_dram_read_flag = 1'b1;
-		else if (state == we_state && avm_m0_readdatavalid == 1'd1)
+		else if (avm_m0_readdatavalid == 1'd1)
 			next_dram_read_flag = 1'b0;
 		else
 			next_dram_read_flag = dram_read_flag;

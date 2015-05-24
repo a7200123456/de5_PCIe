@@ -36,7 +36,7 @@ int test2(int fd) {
 	unique_ptr<char[]> data_m (new char[pcie_size]);
 	
 	FILE *fin_dn = fopen("dn_reverse.txt", "rb");
-	FILE *fin_c  = fopen("c.txt", "rb");
+	FILE *fin_c  = fopen("c_reverse.txt", "rb");
 	FILE *fin_m  = fopen("m.txt", "rb");
 	fread(data_i.get(), 1, chunk_size, fin_dn);
 	fseek(fin_dn, 2, SEEK_CUR);// work for CRLF
@@ -72,7 +72,7 @@ int test2(int fd) {
 	
 	// read
 	int ndiff = 0;
-	addr = 0;
+	addr = 64;
 	assert(alt_up_pci_dma_add(fd, dmaId, addr, (char*)data_o.get(), pcie_size/2, FROM_DEVICE) == 0);
 	assert(alt_up_pci_dma_go(fd, dmaId, irqHandling) == 0);
 	for (int j = 0; j < 64; ++j) {
