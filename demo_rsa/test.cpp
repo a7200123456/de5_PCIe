@@ -26,6 +26,7 @@ char convertHexPair(char hex0,char hex1) {
 
 // PCIe DMA test
 int test2(int fd) {
+	const int input_line = 10;
 	const int chunk_size = 64;
 	const int pcie_size  = 4096;
 	char set_flag = 1;
@@ -42,44 +43,49 @@ int test2(int fd) {
 	fseek(fin_dn, 2, SEEK_CUR);// work for CRLF
 	fread(data_i.get()+chunk_size, 1, chunk_size, fin_dn);
 	
-	for (int i = 0; i < 10; ++i) {
+	for (int i = 0; i < input_line; ++i) {
+		
 		fread(data_i.get()+((2+i)*chunk_size), 1, chunk_size, fin_c);
 		fseek(fin_c, 2, SEEK_CUR);// work for CRLF
 	}
-	for (int i = 0; i < 10; ++i) {
+	for (int i = 0; i < input_line; ++i) {
 		fread(data_m.get()+(i*chunk_size), 1, chunk_size, fin_m);
 		fseek(fin_m, 2, SEEK_CUR);// work for CRLF
 	}
 	//for (int j = 0; j < 1024; ++j) {
 	//	printf("%c %c\n", data_i[j], data_m[j] );
 	//}
+	
+	printf("encrypted data:\n");
 	for (int i = 0; i < (pcie_size/2-1); i++){
         data_i[i] = convertHexPair(data_i[2*i],data_i[2*i+1]);
-		printf("data_i[%d]: %hhx \n",i,data_i[i] );
+		if (i < 128)
+		printf("%hhx",data_i[i] );
     }
-	printf("convert done");
+	printf("convert done\n");
 	const int irqHandling = POLLING;
 	const int dmaId = 0;
 	
 	int addr = 0;
 	assert(alt_up_pci_dma_add(fd, dmaId, addr, (char*)data_i.get(), pcie_size/2, TO_DEVICE) == 0);
 	assert(alt_up_pci_dma_go(fd, dmaId, irqHandling) == 0);
-	printf("write dram done");
+	printf("write dram done\n");
 	assert(alt_up_pci_write(fd, 2, 0, &set_flag, sizeof(set_flag)) == 0);
 	while (read_flag != 0){
 		assert(alt_up_pci_read(fd, 2, 0, &read_flag, sizeof(read_flag)) == 0);
 	}
-	
+	printf("computation complete\n");
 	// read
 	int ndiff = 0;
 	addr = 64;
 	assert(alt_up_pci_dma_add(fd, dmaId, addr, (char*)data_o.get(), pcie_size/2, FROM_DEVICE) == 0);
 	assert(alt_up_pci_dma_go(fd, dmaId, irqHandling) == 0);
-	for (int j = 0; j < 64; ++j) {
+	printf("decrypted data:\n");
+	for (int j = 0; j < 96; ++j) {
 		if (data_o[j] !=  data_m[j]) {
 			++ndiff;
 		}
-		printf("[w] %08x %c %hhx %c%c \n", addr+j, data_o[j],data_i[j], data_m[2*j], data_m[2*j+1] );
+		printf("%c", data_o[j]);
 	}//printf("read speed %.2lfMB/s\n", ((nData*nBatch)>>18)/toc());
 
 	return ndiff;
